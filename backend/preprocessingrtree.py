@@ -8,7 +8,8 @@ def rtree_ind(dato):
     prop = rtree.index.Property()
     prop.dimension = 128
     prop.buffering_capacity = 10
-
+    prop.dat_extension = 'data'
+    prop.idx_extension = 'index'
     ind = rtree.index.Index(f"indices/indice{dato}", properties=prop)
 
     f = r"indices/indice6400.index"

@@ -1,9 +1,8 @@
-import preprocessingimg
+import preprocessingrtree
 
 
 def searchRtree(Query, k):
-    ind = preprocessingimg.rtree_ind(6400)
-    result = []
-    for p in ind.nearest(Query, num_results=k):
-        result.append(p)
+    query = tuple(Query)
+    ind = preprocessingrtree.rtree_ind(6400)
+    result = list(ind.nearest(query, num_results=k))
     return result

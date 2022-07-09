@@ -12,12 +12,13 @@ with open('data_vector.csv', 'r') as csv_file:
         data_vectors.append(data)
 print("khomo")
 
-@app.route('/')
-def hello():
-    return 'HOLA MUNDO  '
+
+@app.route('/api', methods=['POST'])
+def index():
+    return {'name': 'Hello World'}
 
 
-@app.route('/consult')
+@app.route('/api/consult', methods=['POST'])
 def consult():
-    answers = search_all()
+    answers = search_all(1,2,3)
     return answers

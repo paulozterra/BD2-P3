@@ -1,38 +1,146 @@
-.App {
-  text-align: center;
+h3 {
+  color: #ffffff;
+  margin: 40px;
+}
+.textarea__consult {
+  background-color: white;
+  display: block;
+  width: 80%;
+  margin: 40px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.container__block {
+  display: block;
+  width: 100%;
+}
+.container__top {
+  display: inline-block;
+  width: 37%;
+  margin: 1px 0 0 0;
+}
+.container__top h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: white;
+  margin: 40px;
+}
+.time {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: white;
+  margin: 40px;
+}
+.python {
+  color: #ffffff;
+
+  margin: 0px 150px 0 0;
+}
+.postgresql {
+  color: #ffffff;
+
+  margin: 0 0px 0 100px;
+}
+.container__top-consult {
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  height: 400px;
+  width: 500px;
+}
+.white {
+  background-color: white;
+  margin: 40px;
+
+  border: 3px solid #000000;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.rTable {
+  display: table;
+  width: 100%;
+}
+.rTableRow {
+  display: table-row;
+}
+.rTableHeading {
+  display: table-header-group;
+  background-color: #000000;
+}
+.rTableCell,
+.rTableHead {
+  display: table-cell;
+  padding: 3px 10px;
+  border: 1px solid #000000;
+  color: #000000;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.rTableHead strong {
+  display: table-cell;
+  padding: 3px 10px;
+  color: #000000;
+}
+.rTableHead span {
+  display: table-cell;
+  padding: 3px 10px;
+  color: #000000;
+}
+
+.rTableHeading {
+  display: table-header-group;
+  background-color: #000000;
+  font-weight: bold;
+}
+.container__block h3 {
+  font-size: 20px;
+  margin-bottom: 0px;
+  color: white;
+}
+h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+h1 {
+  font-size: 40px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: white;
+  font-family: "kartoone solid";
 }
+.white2 {
+  width: 15%;
+  background: #09b62e;
+  border: none;
+  padding: 12px;
+  color: white;
+  margin: 16px 0;
+  font-size: 16px;
+}
+.white3 {
+  background-color: white;
+  margin: 40px;
+  width: 40%;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  border: 1px solid #000000;
+  font-family: "calibri";
+  font-size: 18px;
+}
+.white4 {
+  background-color: white;
+  margin: 40px;
+  width: 80%;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  border: 1px solid #000000;
+  font-family: "calibri";
+  font-size: 18px;
+}
+.white5 {
+  background-color: white;
+  margin: 40px;
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  border: 3px solid #000000;
 }
