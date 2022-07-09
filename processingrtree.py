@@ -6,6 +6,7 @@ from pathlib import Path
 prop = index.Property()
 prop.dimension = 128
 prop.buffering_capacity = 10
+ind = rtree.index.Index("indices/indice6400", properties=prop)
 
 f =  r"indices/indice6400.index"
 fileObj = Path(f)
@@ -28,5 +29,6 @@ if(fileObj.is_file()==False):
     for i in range(6400):
         ind.insert(i, tuple(data_vectors[i]))
 else:
-    print("ya existe")
+    print("profe gaaaaaaaaaaa")
+
 
