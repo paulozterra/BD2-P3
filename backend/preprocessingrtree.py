@@ -22,6 +22,8 @@ def rtree_ind(dato):
                 data_vectors.append(data)
 
         # INDEX BUILD
-        for i in range(6400):
+        if (dato == "max"):
+            dato = range(data_vectors)
+        for i in range(dato):
             ind.insert(i, tuple(data_vectors[i]))
     return ind
