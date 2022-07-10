@@ -1,12 +1,11 @@
 from queue import PriorityQueue
-from scipy.spatial import distance
-
+from face_recognition import face_distance
 
 def searchKNN(Query, k, data_vectors):
     result = []
     priority = PriorityQueue()
     for vector in data_vectors:
-        dist = distance.euclidean(Query, vector[1:])
+        dist = face_distance(Query, vector[1:])
         priority.put(dist)
     for i in range(k):
         result.append(priority.get())
@@ -16,7 +15,7 @@ def searchKNN(Query, k, data_vectors):
 def Rangesearch(Query, radio, data_vectors):
     result = []
     for vector in data_vectors:
-        dist = distance.euclidean(Query, vector[1:])
+        dist = face_distance(Query, vector[1:])
         if (dist < radio):
             result.append(dist)
     return result
