@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Results } from "../Components/Result/results";
-import { Input } from "../Components/Form/inputs";
+import { Input } from "../Components/Form/input";
 export const ConsultPage = () => {
-  const [inputs, setInputs] = useState({
-    consult: "",
-    topk: "",
-  });
   const [result, setResult] = useState(undefined);
-
-  const handleInputsChange = (newinput) => {
-    setInputs(newinput);
-  };
 
   const handleInputSubmit = (data) => {
     getLatestTodos(data);
@@ -37,12 +29,7 @@ export const ConsultPage = () => {
   return (
     <>
       <h1>UTEC SEARCH</h1>
-      <h3>CONSULTA:</h3>
-      <Input
-        onInputsChange={handleInputsChange}
-        onInputsSubmit={handleInputSubmit}
-        listofInputs={inputs}
-      ></Input>
+      <Input onInputsSubmit={handleInputSubmit}></Input>
       <Results listofResult={result}></Results>
     </>
   );
