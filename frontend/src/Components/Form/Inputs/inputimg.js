@@ -20,10 +20,6 @@ export const Inputimg = ({ onFileSucess, onFileError }) => {
         placeholder="Texto de la consulta"
         onChange={handleFileInput}
       ></input>
-      <button
-        onClick={(e) => fileInput.current && fileInput.current.click()}
-        className="btn btn-primary"
-      ></button>
     </>
   );
 };

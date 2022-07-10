@@ -13,11 +13,7 @@ def search_all(query, k, vector):
     knn = "searchKNN"
     #knn = searchLineal.searchKNN(query, k, vector)
     knd = "searchKNND"
-    return {
-        'rtree': rtree,
-        'knn': knn,
-        'knd': knd,
-    }
+    return [knn, rtree, knd]
 
 
 def parseBasicEncode(file_stream):
@@ -28,4 +24,3 @@ def parseBasicEncode(file_stream):
     encode = face_recognition.face_encodings(picture)[
         0]
     return encode
-    return {'yara': "pe"}

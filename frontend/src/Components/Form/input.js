@@ -1,7 +1,6 @@
 import { Inputimg } from "./Inputs/inputimg";
 import { Inputtopk } from "./Inputs/inputstopk";
 import React, { useState } from "react";
-import axios from "axios";
 
 export const Input = ({ onInputsSubmit, listofInputs }) => {
   const [topk, setTopK] = useState("");
@@ -16,7 +15,7 @@ export const Input = ({ onInputsSubmit, listofInputs }) => {
     formData.append("file", file);
 
     event.preventDefault();
-    fetch("/api/consult/img", {
+    fetch("/api_consult_img", {
       method: "POST",
       body: formData,
     })
@@ -27,7 +26,6 @@ export const Input = ({ onInputsSubmit, listofInputs }) => {
       })
       .then((data) => {
         console.log(data);
-        //onInputsSubmit(data)
       });
   };
   const onFileSelectError = ({ error }) => {
@@ -36,7 +34,7 @@ export const Input = ({ onInputsSubmit, listofInputs }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch("/api/consult/topk", {
+    fetch("/api_consult_topk", {
       method: "POST",
       body: JSON.stringify({ topk: topk }),
     })
@@ -47,7 +45,7 @@ export const Input = ({ onInputsSubmit, listofInputs }) => {
       })
       .then((data) => {
         console.log(data);
-        //onInputsSubmit(data)
+        onInputsSubmit(topk);
       });
   };
 
