@@ -14,10 +14,21 @@ with open('data_vector.csv', 'r') as csv_file:
     for data in csv_reader:
         datos = [float(x) for x in data[1:]]
         data_vectors[data[0]] = datos
-
-RTREE = preprocessingrtree.create_rtree_index("max")
-DIC = preprocessingrtree.readJson("max")
+data_vectors_pca = {}
+with open('data_vector_pca.csv', 'r') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',')
+    for data in csv_reader:
+        datos = [float(x) for x in data[1:]]
+        data_vectors_pca[data[0]] = datos
+TYPE1 = "standart"
+TYPE2 = "pca"
+CANTITY = "max"
+RTREE = preprocessingrtree.create_rtree_index(CANTITY, TYPE1)
+RTREEPCA = preprocessingrtree.create_rtree_index(CANTITY, TYPE2)
+DIC = preprocessingrtree.readJson(CANTITY, TYPE1)
+DICPCA = preprocessingrtree.readJson(CANTITY, TYPE2)
 parsedQuery = None
+parsedQueryPCA = None
 nameimg = None
 
 
@@ -36,14 +47,14 @@ def index():
 
 @app.route('/api_consult_img', methods=['POST'])
 def consultImg():
-    global nameQuery, parsedQuery
+    global nameQuery, parsedQuery, parsedQueryPCA
     file = request.files['file']
 
     if file.filename == '':
         return redirect(request.url)
     if file and allowed_file(file.filename):
         nameQuery = file.filename
-        parsedQuery = parseBasicEncode(file)
+        [parsedQuery, parsedQueryPCA] = parseBasicEncode(file)
     return {"isOK": "200"}
 
 
@@ -52,13 +63,15 @@ def consultTopk():
     global answers
     request_data = json.loads(request.data)
     topk = int(request_data['topk'])
-    testing = search_all(parsedQuery, topk, data_vectors, RTREE, DIC)
+    # testing = [["lfw\Aaron_Eckhart\Aaron_Eckhart_0001.jpg"], ["lfw\Aaron_Eckhart\Aaron_Eckhart_0001.jpg"], ["lfw\Aaron_Eckhart\Aaron_Eckhart_0001.jpg"], ["lfw\Aaron_Eckhart\Aaron_Eckhart_0001.jpg"]]
+    testing = search_all(parsedQuery, data_vectors, RTREE, DIC,
+                         parsedQueryPCA, data_vectors_pca, RTREEPCA, DICPCA, topk)
     answers = testing
     # print(consult)
     return {"isOk": "200"}
 
 
-@app.route('/api_answers', methods=['POST'])
+@ app.route('/api_answers', methods=['POST'])
 def sendanswer():
     request_data = json.loads(request.data)
     pos = int(request_data['pos'])

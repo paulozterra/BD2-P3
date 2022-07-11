@@ -5,24 +5,46 @@ export const ConsultPage = () => {
   const [result, setResult] = useState(undefined);
   const [knnaux, setKnnAux] = useState([]);
   const [rtreeaux, setRtreeAux] = useState([]);
-  const handleInputSubmit = async (topk) => {
+  const [knnauxpca, setKnnAuxPca] = useState([]);
+  const [rtreeauxpca, setRtreeAuxPca] = useState([]);
+
+  const setEmpty = () => {
     setResult([]);
+    setKnnAux([]);
+    setRtreeAux([]);
+    setKnnAuxPca([]);
+    setKnnAuxPca([]);
+  };
+
+  const handleInputSubmit = async (topk) => {
+    setEmpty();
     //topk = 1;
 
     for (let i = 0; i < topk; i++) {
       let knn = img(i, 0);
       let rtree = img(i, 1);
+      let knnpca = img(i, 2);
+      let rtreepca = img(i, 3);
       knn.then((response) => getImg(response, 0));
       rtree.then((response) => getImg(response, 1));
+      knnpca.then((response) => getImg(response, 2));
+      rtreepca.then((response) => getImg(response, 3));
+
       //knndata.push(getImg(i, 0));
       //rtreedata.push(getImg(i, 1));
     }
-    test(knnaux.length, rtreeaux.length, topk);
+    test(
+      knnaux.length,
+      rtreeaux.length,
+      knnauxpca.length,
+      rtreeauxpca.length,
+      topk
+    );
   };
 
-  const test = (len1, len2, topk) => {
-    if (len1 == topk && len2 == topk) {
-      setLastResult([knnaux, rtreeaux]);
+  const test = (len1, len2, len3, len4, topk) => {
+    if (len1 == topk && len2 == topk && len3 == topk && len4 == topk) {
+      setLastResult([knnaux, rtreeaux, knnauxpca, rtreeauxpca]);
     }
   };
 
@@ -32,14 +54,15 @@ export const ConsultPage = () => {
 
   const getImg = async (aux, type) => {
     if (aux != undefined) {
-      console.log(aux);
       const reader = new FileReader();
       reader.readAsDataURL(aux);
       reader.onloadend = () => {
         const base64data = reader.result;
         if (type == 0) {
           setKnnAux((old) => [...old, base64data]);
-        } else setRtreeAux((old) => [...old, base64data]);
+        } else if (type == 1) setRtreeAux((old) => [...old, base64data]);
+        else if (type == 2) setKnnAuxPca((old) => [...old, base64data]);
+        else setRtreeAuxPca((old) => [...old, base64data]);
       };
     }
   };
@@ -57,15 +80,11 @@ export const ConsultPage = () => {
   useEffect(() => {
     fetch("/api", {
       method: "POST",
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        console.log(data);
-      });
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+    });
   }, []);
 
   return (

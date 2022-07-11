@@ -6,13 +6,12 @@ export const Result = ({ listofResult }) => {
     if (listResult === undefined || listResult === []) {
       return <></>;
     }
-    console.log(listResult);
     return (
       <>
         {listResult.map((todo, index) => {
           return (
             <div className="rTableRow" key={index}>
-              <img src={todo} alt="" />
+              <img src={todo} alt="" className="center imgResult" />
             </div>
           );
         })}

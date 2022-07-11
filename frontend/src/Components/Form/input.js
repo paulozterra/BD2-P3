@@ -9,8 +9,13 @@ export const Input = ({ onInputsSubmit, listofInputs }) => {
     setTopK(newinput);
   };
 
+  const fetchImage = async (imageUrl) => {
+    const imageObjectURL = URL.createObjectURL(imageUrl);
+    setSelectedFile(imageObjectURL);
+  };
+
   const onFileSelectSuccess = (file, event) => {
-    setSelectedFile(file);
+    fetchImage(file);
     const formData = new FormData();
     formData.append("file", file);
 
@@ -18,15 +23,11 @@ export const Input = ({ onInputsSubmit, listofInputs }) => {
     fetch("/api_consult_img", {
       method: "POST",
       body: formData,
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        console.log(data);
-      });
+    }).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+    });
   };
   const onFileSelectError = ({ error }) => {
     alert(error);
@@ -44,7 +45,6 @@ export const Input = ({ onInputsSubmit, listofInputs }) => {
         }
       })
       .then((data) => {
-        console.log(data);
         onInputsSubmit(topk);
       });
   };
@@ -56,6 +56,9 @@ export const Input = ({ onInputsSubmit, listofInputs }) => {
         onFileSucess={onFileSelectSuccess}
         onFileError={onFileSelectError}
       ></Inputimg>
+      <>
+        <img src={selectedFile} alt="icons" className="center" />
+      </>
       <div className="container__block">
         <h3>TOP K:</h3>
         <Inputtopk onInputsChange={handleInputsChange} />

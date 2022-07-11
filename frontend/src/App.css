@@ -15,7 +15,7 @@ h3 {
 }
 .container__top {
   display: inline-block;
-  width: 37%;
+  width: 25%;
   margin: 1px 0 0 0;
 }
 .container__top h2 {
@@ -45,7 +45,7 @@ h3 {
   overflow-x: hidden;
 
   height: 400px;
-  width: 500px;
+  width: 350px;
 }
 .white {
   background-color: white;
@@ -107,6 +107,19 @@ h1 {
   color: white;
   font-family: "kartoone solid";
 }
+
+.center {
+  display: block;
+  height: 180px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 12%;
+}
+
+.imgResult {
+  width: 300px;
+}
+
 .white2 {
   width: 15%;
   background: #09b62e;
