@@ -7,6 +7,9 @@ En este proyecto, se busco recrear el reconocimiento de rostros, en base a mas d
 ## Preprocesamiento
 La mayoria de datos que se cargan en los archivos .py que tiene prefijo preprocesamiento, cargan los archivos .csv, y los indices que llevarian buen tiempo cargarse en tiempo real.
 
+* preprocessingPCA
+
+
 ## Front end
 La vista del front end esta conformada por
 * El front end se desarrollo con angular
