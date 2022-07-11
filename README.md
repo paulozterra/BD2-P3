@@ -8,6 +8,7 @@ En este proyecto, se busco recrear el reconocimiento de rostros, en base a mas d
 La mayoria de datos que se cargan en los archivos .py que tiene prefijo preprocesamiento, cargan los archivos .csv, y los indices que llevarian buen tiempo cargarse en tiempo real.
 
 * preprocessingimg, usa la libreria de face recognition, para obtener los vectores caracteristicos de las imagenes (13176 imagenes),y los guarda en un csv junto con su nombre
+
 ``` python
 def preprocessimg():
     data_file = open("data_vector.csv", "w+", newline='')
@@ -277,8 +278,17 @@ def consultTopk():
     type = int(request_data['type'])
     return send_file(answers[type][pos], mimetype='image/jpeg')
  ```
+### PCA
  
-### Implementacion de Algoritmo KNN Secuencial
+ 
+ 
+### Implementacion de Algoritmos de Busqueda KNN Secuencial y KNN Rtree Index,
+
+* La funciones se adaptaron para que puedan funcionar tanto para la data despues de haber pasado por PCA como para la que no, recibe una query (vector caracteristico guardado en un numpy array), un k (numero de elementos traidos).
+* En el caso del KNN Secuencial, adicionalmente lleva un diccionario, con datos en formato {nombre_img: vector_caracteristico}
+* En el caso del KNN indexado Rtree, se debe mandar el indice rtree, y un diccionario en formato {indice: nombre_img}, esto debido a que el indice guarda los valores con un indice numerico, por lo tanto para poder obtener la direccion de la imagen, en el preprocesamiento rtree se creo tal diccionario, y fueron guardados en la carpeta json
+
+> funcion searchKNN 
  ``` python 
 def searchKNN(Query, k, dic_vectors):
     result = []
@@ -291,15 +301,29 @@ def searchKNN(Query, k, dic_vectors):
     resultparser = [x[1] for x in result]
     return resultparser
 ```
-### Implementacion de Algoritmo KNN indexado Rtree
+
+> funcion searchRtree
  ``` python 
  def searchRtree(Query, k, dic2, ind):
     query = tuple(Query)
     result = list(ind.nearest(coordinates=query, num_results=k))
     resultparser = [dic2[str(x)] for x in result]
     return resultparser
- ```
- 
+```
+### Implementacion de Algoritmo de Busqueda RangeSearch 
+* Este algoritmo de busqueda no se visualiza en la aplicacion web, pero si en la parte de experimentacion, se adapto igual que los algoritmos anteriores y la unica diferencia es que debe pasarsele un radio.
+
+ > funcion rangeSearch
+ ``` python 
+def rangeSearch(Query, dic_vectors, radio):
+    result = []
+    for file in dic_vectors:
+        dist = face_distance([Query], np.array(dic_vectors[file]))
+        if (dist < radio):
+            result.append(dist)
+    return result
+   ```
+   
 ## Librearias Usadas
 
  Se utilizaron las siguientes librerias:
@@ -312,9 +336,105 @@ def searchKNN(Query, k, dic_vectors):
  
 ## Eexperimentación
 
+* Para los experimentos se crearon 3 archivos, experimentation, searchAllExp y timer, y se uso una imagen de Castillo, todo se guardo en la carpeta de experimentacion, y en el caso se quiera usar, se debe llevar los archivos, excepto por la imagen, a la carpeta de backend
+
+* En el archivo experimentation, se creao la simulacion de la busqueda completa del programa en la funcion experiment_timer_vs, para poder obtener los tiempos de cada algoritmo. Asi como tambien se crea la funcion experiment_rangeSearch que permite obtener los tiempos del algoritmo de busqueda por rango
+
+> funcion experiment_timer_vs: 
+``` python
+def experiment_timer_vs(cantity):
+    data_vectors = {}
+    with open('datos/data_vector.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for data in csv_reader:
+            datos = [float(x) for x in data[1:]]
+            data_vectors[data[0]] = datos
+    data_vectors_pca = {}
+    with open('datos/data_vector_pca.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for data in csv_reader:
+            datos = [float(x) for x in data[1:]]
+            data_vectors_pca[data[0]] = datos
+    TYPE1 = "standart"
+    TYPE2 = "pca"
+    CANTITY = cantity
+    RTREE = preprocessingrtree.create_rtree_index(CANTITY, TYPE1)
+    RTREEPCA = preprocessingrtree.create_rtree_index(CANTITY, TYPE2)
+    DIC = preprocessingrtree.readJson(CANTITY, TYPE1)
+    DICPCA = preprocessingrtree.readJson(CANTITY, TYPE2)
+    parsedQuery = None
+    parsedQueryPCA = None
+
+    file = "experimentacion\Castillo.jpg"
+    [parsedQuery, parsedQueryPCA] = parseBasicEncode(file)
+
+    search_all(parsedQuery, data_vectors, RTREE, DIC,
+               parsedQueryPCA, data_vectors_pca, RTREEPCA, DICPCA, 8)
+ ```
+ > funcion experiment_rangeSearch:
+``` python
+def experiment_rangeSearch(radio):
+    data_vectors = {}
+    with open('datos/data_vector.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for data in csv_reader:
+            datos = [float(x) for x in data[1:]]
+            data_vectors[data[0]] = datos
+    data_vectors_pca = {}
+    with open('datos/data_vector_pca.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for data in csv_reader:
+            datos = [float(x) for x in data[1:]]
+            data_vectors_pca[data[0]] = datos
+    parsedQuery = None
+    parsedQueryPCA = None
+
+    file = "experimentacion\Castillo.jpg"
+    [parsedQuery, parsedQueryPCA] = parseBasicEncode(file)
+
+    range_Search(parsedQuery, data_vectors,
+                 parsedQueryPCA, data_vectors_pca, radio)
+```
+
+* En el archivo searchAllExp, se altero el archivo searchAll, para que se obtengan los tiempos de cada funcion y se imprimera
+
+* El archivo timer se coloca la pagina de donde se extrajo, se usa para medir los tiempos, y es el mejor comparacion de tiempos nos arrojo
+
+> class Timer 
+
+``` python
+class TimerError(Exception):
+    """A custom exception used to report errors in use of Timer class"""
+
+
+class Timer:
+    def __init__(self, text="Elapsed time: {:0.4f} seconds"):
+        self._start_time = None
+        self.text = text
+
+    def start(self):
+        """Start a new timer"""
+        if self._start_time is not None:
+            raise TimerError(f"Timer is running. Use .stop() to stop it")
+
+        self._start_time = time.perf_counter()
+
+    def stop(self):
+        """Stop the timer, and report the elapsed time"""
+        if self._start_time is None:
+            raise TimerError(f"Timer is not running. Use .start() to start it")
+
+        elapsed_time = time.perf_counter() - self._start_time
+        self._start_time = None
+        print(f"Elapsed time: {elapsed_time:0.4f} seconds")
+```
+* Los datos obtenidos de los prints se pasaron a https://infogram.com/ y se obtuvieron los grafos comparativos
+
 ### Lineal Search by Range Algoritm 
+![WhatsApp Image 2022-07-11 at 2 47 13 AM](https://user-images.githubusercontent.com/66433825/178215044-5d3a94db-bc82-47a0-ba55-9bf8cf735f84.jpeg)
 
 ### Knn-Secuencial vs Knn-Rtree vs Knn-HighD(Rtree) vs Knn-HighD(Secuencial)
+![WhatsApp Image 2022-07-11 at 2 32 06 AM](https://user-images.githubusercontent.com/66433825/178212023-89bbd24f-4ed9-4709-823b-b00c737fe0b5.jpeg)
 
 ### Video 
 https://youtu.be/zSO5gA5PM2g
