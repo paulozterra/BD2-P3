@@ -316,7 +316,7 @@ def searchKNN(Query, k, dic_vectors):
 
 * En el archivo experimentation, se creao la simulacion de la busqueda completa del programa en la funcion experiment_timer_vs, para poder obtener los tiempos de cada algoritmo. Asi como tambien se crea la funcion experiment_rangeSearch que permite obtener los tiempos del algoritmo de busqueda por rango
 
-* funcion experiment_timer_vs: 
+> funcion experiment_timer_vs: 
 ``` python
 def experiment_timer_vs(cantity):
     data_vectors = {}
@@ -347,7 +347,7 @@ def experiment_timer_vs(cantity):
     search_all(parsedQuery, data_vectors, RTREE, DIC,
                parsedQueryPCA, data_vectors_pca, RTREEPCA, DICPCA, 8)
  ```
- * funcion experiment_rangeSearch:
+ > funcion experiment_rangeSearch:
 ``` python
 def experiment_rangeSearch(radio):
     data_vectors = {}
@@ -376,7 +376,7 @@ def experiment_rangeSearch(radio):
 
 * El archivo timer se coloca la pagina de donde se extrajo, se usa para medir los tiempos, y es el mejor comparacion de tiempos nos arrojo
 
-* class Timer 
+> class Timer 
 
 ``` python
 class TimerError(Exception):
