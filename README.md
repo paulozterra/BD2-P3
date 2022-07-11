@@ -8,6 +8,7 @@ En este proyecto, se busco recrear el reconocimiento de rostros, en base a mas d
 La mayoria de datos que se cargan en los archivos .py que tiene prefijo preprocesamiento, cargan los archivos .csv, y los indices que llevarian buen tiempo cargarse en tiempo real.
 
 * preprocessingimg, usa la libreria de face recognition, para obtener los vectores caracteristicos de las imagenes (13176 imagenes),y los guarda en un csv junto con su nombre
+
 ``` python
 def preprocessimg():
     data_file = open("data_vector.csv", "w+", newline='')
@@ -277,8 +278,17 @@ def consultTopk():
     type = int(request_data['type'])
     return send_file(answers[type][pos], mimetype='image/jpeg')
  ```
+### PCA
  
-### Implementacion de Algoritmo KNN Secuencial
+ 
+ 
+### Implementacion de Algoritmos de Busqueda KNN Secuencial y KNN Rtree Index,
+
+* La funciones se adaptaron para que puedan funcionar tanto para la data despues de haber pasado por PCA como para la que no, recibe una query (vector caracteristico guardado en un numpy array), un k (numero de elementos traidos).
+* En el caso del KNN Secuencial, adicionalmente lleva un diccionario, con datos en formato {nombre_img: vector_caracteristico}
+* En el caso del KNN indexado Rtree, se debe mandar el indice rtree, y un diccionario en formato {indice: nombre_img}, esto debido a que el indice guarda los valores con un indice numerico, por lo tanto para poder obtener la direccion de la imagen, en el preprocesamiento rtree se creo tal diccionario, y fueron guardados en la carpeta json
+
+> funcion searchKNN 
  ``` python 
 def searchKNN(Query, k, dic_vectors):
     result = []
@@ -291,15 +301,29 @@ def searchKNN(Query, k, dic_vectors):
     resultparser = [x[1] for x in result]
     return resultparser
 ```
-### Implementacion de Algoritmo KNN indexado Rtree
+
+> funcion searchRtree
  ``` python 
  def searchRtree(Query, k, dic2, ind):
     query = tuple(Query)
     result = list(ind.nearest(coordinates=query, num_results=k))
     resultparser = [dic2[str(x)] for x in result]
     return resultparser
- ```
- 
+```
+### Implementacion de Algoritmo de Busqueda RangeSearch 
+* Este algoritmo de busqueda no se visualiza en la aplicacion web, pero si en la parte de experimentacion, se adapto igual que los algoritmos anteriores y la unica diferencia es que debe pasarsele un radio.
+
+ > funcion rangeSearch
+ ``` python 
+def rangeSearch(Query, dic_vectors, radio):
+    result = []
+    for file in dic_vectors:
+        dist = face_distance([Query], np.array(dic_vectors[file]))
+        if (dist < radio):
+            result.append(dist)
+    return result
+   ```
+   
 ## Librearias Usadas
 
  Se utilizaron las siguientes librerias:
