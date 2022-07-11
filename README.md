@@ -6,7 +6,7 @@ En este proyecto, se busco recrear el reconocimiento de rostros, en base a mas d
 
 ## Front end
 
-El front end se desarrollo con angular, tiene implementado el input que permite ingresar la img que se quiere buscar dentro de la base datos, y tambien un input tipo texto que permite ingresar el topk de elementos que se quieren buscar.
+* El front end se desarrollo con angular, tiene implementado el input que permite ingresar la img que se quiere buscar dentro de la base datos, y tambien un input tipo texto que permite ingresar el topk de elementos que se quieren buscar.
 Se tienen cuatro columnos en donde se asigna los elementos encontrados respectivamente 
 
 ## Back end
