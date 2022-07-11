@@ -315,8 +315,7 @@ def searchKNN(Query, k, dic_vectors):
 ### Lineal Search by Range Algoritm 
 
 ### Knn-Secuencial vs Knn-Rtree vs Knn-HighD(Rtree) vs Knn-HighD(Secuencial)
-Se realizó la experimentación de nuestro buscador con una imagen del presidente Castillo y obtuvimos los siguientes resultados.
-![WhatsApp Image 2022-07-11 at 2 06 32 AM](https://user-images.githubusercontent.com/66433825/178208080-58067a60-f98a-4e0b-92ee-666e419bb7fa.jpeg)
-Se puede apreciar que los tiempos más bajos se obtienen con el Knn-rtree y el Knn-pca-rtree. También se puede observar una diferencia notable entre los tiempo del Knn-secuencial y el Knn-pca-secuencial.
+![WhatsApp Image 2022-07-11 at 2 32 06 AM](https://user-images.githubusercontent.com/66433825/178212023-89bbd24f-4ed9-4709-823b-b00c737fe0b5.jpeg)
+
 ### Video 
 https://youtu.be/zSO5gA5PM2g
