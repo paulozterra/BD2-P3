@@ -68,7 +68,7 @@ def preprocessimg():
         ind = rtree.index.Index(path, properties=prop)
     return ind
  ```
-* preprocessingPCA, usa la libreria de sktlearn para transformar los originales vectores caracterisiticos de las imagenes, a uno mas reducidos.
+* preprocessingPCA, usa la libreria de sktlearn para transformar los originales vectores caracterisiticos de las imagenes, a uno mas reducidos. Y se guarda toda la informacion importante, que sirva para poder hacer el parser de la imagen que se ingresara luego.
  ``` python
  df = pd.read_csv("data_vectorh.csv")
 
