@@ -313,6 +313,7 @@ def searchKNN(Query, k, dic_vectors):
 ## Eexperimentación
 
 ### Lineal Search by Range Algoritm 
+![WhatsApp Image 2022-07-11 at 2 47 13 AM](https://user-images.githubusercontent.com/66433825/178215044-5d3a94db-bc82-47a0-ba55-9bf8cf735f84.jpeg)
 
 ### Knn-Secuencial vs Knn-Rtree vs Knn-HighD(Rtree) vs Knn-HighD(Secuencial)
 ![WhatsApp Image 2022-07-11 at 2 32 06 AM](https://user-images.githubusercontent.com/66433825/178212023-89bbd24f-4ed9-4709-823b-b00c737fe0b5.jpeg)
