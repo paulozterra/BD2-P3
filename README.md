@@ -183,7 +183,18 @@ def consultTopk():
                          parsedQueryPCA, data_vectors_pca, RTREEPCA, DICPCA, topk)
     answers = testing
 ```
-** Implementacion de Algoritmo KNN Secuencial
+* El ultimo fetch, se llama multiples veces desde el frontend debido a que no pudimos hayar la forma de mandar muchas imagenes como response y que sean utilizables en el frontend. El fetch recibe la posicion del archivo que quiere recibir, y simplemente lo devuelve.
+
+ ``` python 
+ @app.route('/api_answers', methods=['POST'])
+ def sendanswer():
+    request_data = json.loads(request.data)
+    pos = int(request_data['pos'])
+    type = int(request_data['type'])
+    return send_file(answers[type][pos], mimetype='image/jpeg')
+ ```
+ 
+### Implementacion de Algoritmo KNN Secuencial
  ``` python 
 def searchKNN(Query, k, dic_vectors):
     result = []
@@ -196,7 +207,7 @@ def searchKNN(Query, k, dic_vectors):
     resultparser = [x[1] for x in result]
     return resultparser
 ```
-** Implementacion de Algoritmo KNN indexado Rtree
+### Implementacion de Algoritmo KNN indexado Rtree
  ``` python 
  def searchRtree(Query, k, dic2, ind):
     query = tuple(Query)
@@ -206,17 +217,7 @@ def searchKNN(Query, k, dic_vectors):
  ```
  ``` python 
  ```
-* El ultimo fetch, se llama multiples veces desde el frontend debido a que no pudimos hayar la forma de mandar muchas imagenes como response y que sean utilizables en el frontend. El fetch recibe la posicion del archivo que quiere recibir, y simplemente lo devuelve.
-
- ``` python 
- @app.route('/api_answers', methods=['POST'])
- def sendanswer():
-    request_data = json.loads(request.data)
-    pos = int(request_data['pos'])
-    type = int(request_data['type'])
-    return send_file(answers[type][pos], mimetype='image/jpeg')
- ```
-
+ 
 ## Librearias Usadas
 
  Se utilizaron las siguientes librerias:
