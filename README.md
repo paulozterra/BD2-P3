@@ -31,3 +31,6 @@ El back end se desarrollo con flask, el proc
 ### Lineal Search by Range Algoritm 
 
 ### Knn-Secuencial vs Knn-Rtree vs Knn-HighD(Rtree) vs Knn-HighD(Secuencial)
+
+### Video 
+https://youtu.be/zSO5gA5PM2g
