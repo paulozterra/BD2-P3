@@ -312,6 +312,47 @@ def searchKNN(Query, k, dic_vectors):
  
 ## Eexperimentación
 
+*Para los experimentos se crearon 3 archivos, experimentation, searchAllExp y timer, y se uso una imagen de Castillo, todo se guardo en la carpeta de experimentacion, y en el caso se quiera usar, se debe llevar los archivos, excepto por la imagen, a la carpeta de backend
+
+*En el archivo experimentation, se creao la simulacion de la busqueda completa del programa en la funcion experiment_timer_vs, para poder obtener los tiempos de cada algoritmo. 
+
+``` python
+def experiment_timer_vs(cantity):
+    data_vectors = {}
+    with open('datos/data_vector.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for data in csv_reader:
+            datos = [float(x) for x in data[1:]]
+            data_vectors[data[0]] = datos
+    data_vectors_pca = {}
+    with open('datos/data_vector_pca.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for data in csv_reader:
+            datos = [float(x) for x in data[1:]]
+            data_vectors_pca[data[0]] = datos
+    TYPE1 = "standart"
+    TYPE2 = "pca"
+    CANTITY = cantity
+    RTREE = preprocessingrtree.create_rtree_index(CANTITY, TYPE1)
+    RTREEPCA = preprocessingrtree.create_rtree_index(CANTITY, TYPE2)
+    DIC = preprocessingrtree.readJson(CANTITY, TYPE1)
+    DICPCA = preprocessingrtree.readJson(CANTITY, TYPE2)
+    parsedQuery = None
+    parsedQueryPCA = None
+
+    file = "experimentacion\Castillo.jpg"
+    [parsedQuery, parsedQueryPCA] = parseBasicEncode(file)
+
+    search_all(parsedQuery, data_vectors, RTREE, DIC,
+               parsedQueryPCA, data_vectors_pca, RTREEPCA, DICPCA, 8)
+ ```
+
+*En el archivo searchAllExp, se altero el archivo searchAll, para que se obtengan los tiempos de cada funcion y se imprimera
+
+*El archivo timer se coloca la pagina de donde se extrajo, se usa para medir los tiempos, y es el mejor comparacion de tiempos nos arrojo
+
+*Los datos obtenidos de los prints se pasaron a https://infogram.com/ y se obtuvieron los grafos comparativos
+
 ### Lineal Search by Range Algoritm 
 ![WhatsApp Image 2022-07-11 at 2 47 13 AM](https://user-images.githubusercontent.com/66433825/178215044-5d3a94db-bc82-47a0-ba55-9bf8cf735f84.jpeg)
 
