@@ -2,7 +2,7 @@ from searchAll import search_all, parseBasicEncode
 import preprocessingrtree
 import csv
 data_vectors = {}
-with open('data_vector_pca.csv', 'r') as csv_file:
+with open('datos/data_vector_pca.csv', 'r') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for data in csv_reader:
         datos = [float(x) for x in data[1:]]

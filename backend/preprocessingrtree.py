@@ -6,11 +6,11 @@ import json
 
 def decide_paths(size, type):
     if (type == "standart"):
-        data_path = "data_vector.csv"
+        data_path = "datos/data_vector.csv"
         json_path = f"jsons/standart/diccionary{size}.json"
         indices_path = f"indices/standart/indice{size}"
     else:
-        data_path = "data_vector_pca.csv"
+        data_path = "datos/data_vector_pca.csv"
         json_path = f"jsons/pca/diccionary{size}.json"
         indices_path = f"indices/pca/indice{size}"
     return [data_path, json_path, indices_path]

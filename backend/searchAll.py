@@ -3,7 +3,6 @@ import searchLineal
 import face_recognition
 import pickle
 import pandas as pd
-
 scaler = pickle.load(open("datos/scaler.dat", "rb"))
 pca = pickle.load(open("datos/pca.dat", "rb"))
 
@@ -11,19 +10,13 @@ pca = pickle.load(open("datos/pca.dat", "rb"))
 def search_all(query, vector, ind, dic, querypca, vectorpca, indpca, dicpca, k):
     knn = searchLineal.searchKNN(query, k, vector)
     rtree = searchIndex.searchRtree(query, k, dic, ind)
-    knnv2 = searchLineal.searchKNNV2(query, k, vector)
-
     knnpca = searchLineal.searchKNN(querypca, k, vectorpca)
     rtreepca = searchIndex.searchRtree(querypca, k, dicpca, indpca)
 
-    knd = "searchKNND"
-    #parseNew = parseToDirections(knnv2)
     parseKNN = parseToDirections(knn)
     parseRtree = parseToDirections(rtree)
     parseKNNPca = parseToDirections(knnpca)
     parseRtreePca = parseToDirections(rtreepca)
-    print(parseRtree)
-    print(parseKNN)
 
     return [parseKNN, parseRtree, parseKNNPca, parseRtreePca]
 
