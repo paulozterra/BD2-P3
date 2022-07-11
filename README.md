@@ -27,6 +27,14 @@ El back end se desarrollo con flask, el proc
 
 ## Librearias Usadas
 
+ Se utilizaron las siguientes librerias:
+ * face_recognition: Se utilizó las funciones face_encodings y face_distance. Se utilizo para obtener los vectores caracteristicos de cada imagen
+ * pickle: Se utilizó las funciones load y dump
+ * pandas: Se utilizo para el manejo de nuestro dataset
+ * sklearn: Libreria importante para la realización del PCA. Se utilizó el PCA para reducir la dimensionalidad de los vectores caracteristicos que fueron pasados a traves de nuestro data_vector.csv
+ * flask: Permite levantar la pagina web en localhost
+ * rtree: Libreria usada para indexar los vectores caracteristicos.
+ 
 ## Eexperimentación
 
 ### Lineal Search by Range Algoritm 
