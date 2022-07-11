@@ -7,7 +7,93 @@ En este proyecto, se busco recrear el reconocimiento de rostros, en base a mas d
 ## Preprocesamiento
 La mayoria de datos que se cargan en los archivos .py que tiene prefijo preprocesamiento, cargan los archivos .csv, y los indices que llevarian buen tiempo cargarse en tiempo real.
 
-* preprocessingPCA
+* preprocessingimg, usa la libreria de face recognition, para obtener los vectores caracteristicos de las imagenes (13176 imagenes),y los guarda en un csv junto con su nombre
+``` python
+def preprocessimg():
+    data_file = open("data_vector.csv", "w+", newline='')
+    write = csv.writer(data_file)
+    dir_path = "lfw/"
+    for dir in os.listdir(dir_path):
+        dir_imgs = os.listdir(dir_path + '/' + dir)
+        for img in dir_imgs:
+            data_vector = face_recognition.face_encodings(
+                face_recognition.load_image_file(f"{dir_path}/{dir}/{img}"))
+            try:
+                data_arr = data_vector[0].tolist()
+                data_arr2 = [img]
+                data_arr2.extend(data_arr)
+                write.writerow(data_arr2)
+                # Segun https://medium.com/codex/face-recognition-25f7421a2268, face_encoding[0] nos arroga un vector de 128 elementos
+            except:
+                continue
+    data_file.close()
+ ```
+ * preprocessingrtree, usa la libreria rtree para construir los indices, ademas se ha dinamizado la funcion para que construya el indice en base a ciertos parametros que entre otras cosas decide el path donde se guardara el indice y la dimension con la que se trabajara. Ademas cabe recalcar que si el indice ya existe, solo se devolvera y no se rehara todo el procesos costo.
+ ``` python
+ def create_rtree_index(size, type):
+    [data_path, json_path, indices_path] = decide_paths(size, type)
+    ind = None
+    dic = {}
+    dic2 = {}
+    path = indices_path
+    prop = rtree.index.Property()
+    prop.dimension = decide_dimension(type)
+    prop.buffering_capacity = 10
+    prop.dat_extension = 'data'
+    prop.idx_extension = 'index'
+    f = rf"{path}.index"
+    fileObj = Path(f)
+    ind = None
+    if(fileObj.is_file() == False):
+        ind = rtree.index.Index(path, properties=prop)
+        aux = 0
+        if isinstance(size, str):
+            size = 20000
+        with open(data_path, 'r') as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            for data in csv_reader:
+                datos = [float(x) for x in data[1:]]
+                dic[data[0]] = datos
+                dic2[aux] = data[0]
+                aux += 1
+                if (aux > size):
+                    break
+            # INDEX BUILD
+        for i in dic2:
+            ind.insert(i, tuple(dic[dic2[i]]))
+            # Serializing json
+        if (size == 20000):
+            size = "max"
+        with open(json_path, "w") as outfile:
+            json.dump(dic2, outfile)
+    else:
+        ind = rtree.index.Index(path, properties=prop)
+    return ind
+ ```
+* preprocessingPCA, usa la libreria de sktlearn para transformar los originales vectores caracterisiticos de las imagenes, a uno mas reducidos.
+ ``` python
+ df = pd.read_csv("data_vectorh.csv")
+
+posvectors = [str(i) for i in range(1, 129)]
+x = df.loc[:, posvectors]
+y = df.loc[:, ["path"]]
+
+scaler = StandardScaler()
+scalert = scaler.fit_transform(x)
+
+pca = PCA(.95)
+pcat = pca.fit_transform(scalert)
+dfActual = pd.DataFrame(data=pcat)
+dfFinal = pd.concat([df[["path"]], dfActual], axis=1)
+
+dataset = "data_vector_pca.csv"
+scalerp = "scaler.dat"
+pcap = "pca.dat"
+dfFinal.to_csv(dataset, header=None, index=False)
+pickle.dump(scaler, open(scalerp, "wb"))
+pickle.dump(pca, open(pcap, "wb"))
+ ```
+ 
 
 
 ## Front end
@@ -214,8 +300,6 @@ def searchKNN(Query, k, dic_vectors):
     result = list(ind.nearest(coordinates=query, num_results=k))
     resultparser = [dic2[str(x)] for x in result]
     return resultparser
- ```
- ``` python 
  ```
  
 ## Librearias Usadas
