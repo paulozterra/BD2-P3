@@ -17,13 +17,22 @@ Guia del Front end, codigo:
 * Se debe ingresar el topk, y al dar a submit, se mandara a backend y ejectura los algoritmos de busqueda,
 
 ## Back end
-El back end se desarrollo con flask, el proc
+El back end se desarrollo con python, las librerias principales seran ahondadas dentro de la seccion Librerias Usadas
 
-## Parser imagen
+### Guia de implementación backend, codigo
+
+* Al iniciar el programa se cargan diferentes archivos y datos que seran usados posteriormente, como el indice rtree, los vectores caracteristicas para la busqueda lineal, etc
+* El primer fetch que se hace es el que recibe la imagen que se quiere buscar, 
+ 
+* La imagen se parsea y se devuelven dos diferentes vectores, el primero se usa para los algoritmos KNN, Secuencial y Rtree, y el segundo para los algoritmos KNN High D, Secuencial y Rtree  
+
+* El segundo fetch que se hace es el que recibe el topk, aqui se llama a la funcion que se encargara de ejecutra los diferentes algoritmos y los guarda en un array
+
+* El ultimo fetch, se llama multiples veces desde el frontend debido a que no pudimos hayar la forma de mandar muchas imagenes como response y que sean utilizables en el frontend. El fetch recibe la posicion del archivo que quiere recibir, y simplemente lo devuelve.
+
 
 ## Preprocesamiento
-
-## Datos 
+La mayoria de datos que se cargan en los archivos .py que tiene prefijo preprocesamiento, cargan los archivos .csv, y los indices que llevarian buen tiempo cargarse en tiempo real.
 
 ## Librearias Usadas
 
