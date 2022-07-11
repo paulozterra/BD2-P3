@@ -10,6 +10,7 @@ La vista del front end esta conformada por
 * Input que permite ingresar la img que se quiere buscar dentro de la base datos
 * Input tipo texto que permite ingresar el topk de elementos que se quieren buscar.
 * Cuatro columnos en donde se asigna los elementos encontrados respectivamente 
+![WhatsApp Image 2022-07-10 at 11 43 56 PM](https://user-images.githubusercontent.com/66433825/178191198-3df65a7e-ddae-4835-9544-06ae251b666d.jpeg)
 
 Guia del Front end, codigo:
 * Primero se debe ingresar la imagen, que hara un fetch para cargar la imagen y parsearla en el backend
