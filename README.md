@@ -312,10 +312,11 @@ def searchKNN(Query, k, dic_vectors):
  
 ## Eexperimentación
 
-*Para los experimentos se crearon 3 archivos, experimentation, searchAllExp y timer, y se uso una imagen de Castillo, todo se guardo en la carpeta de experimentacion, y en el caso se quiera usar, se debe llevar los archivos, excepto por la imagen, a la carpeta de backend
+* Para los experimentos se crearon 3 archivos, experimentation, searchAllExp y timer, y se uso una imagen de Castillo, todo se guardo en la carpeta de experimentacion, y en el caso se quiera usar, se debe llevar los archivos, excepto por la imagen, a la carpeta de backend
 
-*En el archivo experimentation, se creao la simulacion de la busqueda completa del programa en la funcion experiment_timer_vs, para poder obtener los tiempos de cada algoritmo. 
+* En el archivo experimentation, se creao la simulacion de la busqueda completa del programa en la funcion experiment_timer_vs, para poder obtener los tiempos de cada algoritmo. Asi como tambien se crea la funcion experiment_rangeSearch que permite obtener los tiempos del algoritmo de busqueda por rango
 
+* funcion experiment_timer_vs: 
 ``` python
 def experiment_timer_vs(cantity):
     data_vectors = {}
@@ -346,12 +347,64 @@ def experiment_timer_vs(cantity):
     search_all(parsedQuery, data_vectors, RTREE, DIC,
                parsedQueryPCA, data_vectors_pca, RTREEPCA, DICPCA, 8)
  ```
+ * funcion experiment_rangeSearch:
+``` python
+def experiment_rangeSearch(radio):
+    data_vectors = {}
+    with open('datos/data_vector.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for data in csv_reader:
+            datos = [float(x) for x in data[1:]]
+            data_vectors[data[0]] = datos
+    data_vectors_pca = {}
+    with open('datos/data_vector_pca.csv', 'r') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        for data in csv_reader:
+            datos = [float(x) for x in data[1:]]
+            data_vectors_pca[data[0]] = datos
+    parsedQuery = None
+    parsedQueryPCA = None
 
-*En el archivo searchAllExp, se altero el archivo searchAll, para que se obtengan los tiempos de cada funcion y se imprimera
+    file = "experimentacion\Castillo.jpg"
+    [parsedQuery, parsedQueryPCA] = parseBasicEncode(file)
 
-*El archivo timer se coloca la pagina de donde se extrajo, se usa para medir los tiempos, y es el mejor comparacion de tiempos nos arrojo
+    range_Search(parsedQuery, data_vectors,
+                 parsedQueryPCA, data_vectors_pca, radio)
+```
 
-*Los datos obtenidos de los prints se pasaron a https://infogram.com/ y se obtuvieron los grafos comparativos
+* En el archivo searchAllExp, se altero el archivo searchAll, para que se obtengan los tiempos de cada funcion y se imprimera
+
+* El archivo timer se coloca la pagina de donde se extrajo, se usa para medir los tiempos, y es el mejor comparacion de tiempos nos arrojo
+
+* class Timer 
+
+``` python
+class TimerError(Exception):
+    """A custom exception used to report errors in use of Timer class"""
+
+
+class Timer:
+    def __init__(self, text="Elapsed time: {:0.4f} seconds"):
+        self._start_time = None
+        self.text = text
+
+    def start(self):
+        """Start a new timer"""
+        if self._start_time is not None:
+            raise TimerError(f"Timer is running. Use .stop() to stop it")
+
+        self._start_time = time.perf_counter()
+
+    def stop(self):
+        """Stop the timer, and report the elapsed time"""
+        if self._start_time is None:
+            raise TimerError(f"Timer is not running. Use .start() to start it")
+
+        elapsed_time = time.perf_counter() - self._start_time
+        self._start_time = None
+        print(f"Elapsed time: {elapsed_time:0.4f} seconds")
+```
+* Los datos obtenidos de los prints se pasaron a https://infogram.com/ y se obtuvieron los grafos comparativos
 
 ### Lineal Search by Range Algoritm 
 ![WhatsApp Image 2022-07-11 at 2 47 13 AM](https://user-images.githubusercontent.com/66433825/178215044-5d3a94db-bc82-47a0-ba55-9bf8cf735f84.jpeg)
