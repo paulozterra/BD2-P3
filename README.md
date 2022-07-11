@@ -292,7 +292,7 @@ def consultTopk():
       df = pd.read_csv("datos/data_vectorh.csv")
       ```
  * Luego se procede a estandarizar los datos
-       ``` python 
+      ``` python 
       scaler = StandardScaler()
       scalert = scaler.fit_transform(x)
       ```
@@ -304,10 +304,10 @@ def consultTopk():
     dfFinal = pd.concat([df[["path"]], dfActual], axis=1)
     ```
  * Guardamos nuestro nuevo dataset con el que trabajaremos con el KNN secuencial y el KNN rtree
-  ``` python
- dataset = "datos/data_vector_pca.csv"
- dfFinal.to_csv(dataset, header=None, index=False)
-  ```
+      ``` python
+     dataset = "datos/data_vector_pca.csv"
+     dfFinal.to_csv(dataset, header=None, index=False)
+      ```
 ### Implementacion de Algoritmos de Busqueda KNN Secuencial y KNN Rtree Index,
 
 * La funciones se adaptaron para que puedan funcionar tanto para la data despues de haber pasado por PCA como para la que no, recibe una query (vector caracteristico guardado en un numpy array), un k (numero de elementos traidos).
