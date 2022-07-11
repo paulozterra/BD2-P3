@@ -6,7 +6,7 @@ import csv
 
 
 def preprocessimg():
-    data_file = open("data_vector.csv", "w+", newline='')
+    data_file = open("datos/data_vector.csv", "w+", newline='')
     write = csv.writer(data_file)
     dir_path = "lfw/"
     for dir in os.listdir(dir_path):

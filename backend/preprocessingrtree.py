@@ -1,4 +1,3 @@
-from asyncio.windows_events import INFINITE
 import csv
 import rtree
 from pathlib import Path

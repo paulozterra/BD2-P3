@@ -12,8 +12,6 @@ def searchKNN(Query, k, dic_vectors):
         if (len(result) > k):
             heapq.heappop(result)
     result.sort(key=lambda tup: tup[1])
-
-    # SE NECESITA TODA LA DIRECCION DE LOS ARCHIVOS
     resultparser = [x[1] for x in result]
     return resultparser
 

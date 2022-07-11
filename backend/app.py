@@ -9,13 +9,13 @@ app = Flask(__name__)
 
 answers = []
 data_vectors = {}
-with open('data_vector.csv', 'r') as csv_file:
+with open('datos/data_vector.csv', 'r') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for data in csv_reader:
         datos = [float(x) for x in data[1:]]
         data_vectors[data[0]] = datos
 data_vectors_pca = {}
-with open('data_vector_pca.csv', 'r') as csv_file:
+with open('datos/data_vector_pca.csv', 'r') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for data in csv_reader:
         datos = [float(x) for x in data[1:]]
@@ -63,15 +63,13 @@ def consultTopk():
     global answers
     request_data = json.loads(request.data)
     topk = int(request_data['topk'])
-    # testing = [["lfw\Aaron_Eckhart\Aaron_Eckhart_0001.jpg"], ["lfw\Aaron_Eckhart\Aaron_Eckhart_0001.jpg"], ["lfw\Aaron_Eckhart\Aaron_Eckhart_0001.jpg"], ["lfw\Aaron_Eckhart\Aaron_Eckhart_0001.jpg"]]
     testing = search_all(parsedQuery, data_vectors, RTREE, DIC,
                          parsedQueryPCA, data_vectors_pca, RTREEPCA, DICPCA, topk)
     answers = testing
-    # print(consult)
     return {"isOk": "200"}
 
 
-@ app.route('/api_answers', methods=['POST'])
+@app.route('/api_answers', methods=['POST'])
 def sendanswer():
     request_data = json.loads(request.data)
     pos = int(request_data['pos'])

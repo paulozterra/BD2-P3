@@ -4,18 +4,18 @@ import React, { useState } from "react";
 
 export const Input = ({ onInputsSubmit, listofInputs }) => {
   const [topk, setTopK] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState("");
   const handleInputsChange = (newinput) => {
     setTopK(newinput);
   };
 
-  const fetchImage = async (imageUrl) => {
+  const showImage = async (imageUrl) => {
     const imageObjectURL = URL.createObjectURL(imageUrl);
     setSelectedFile(imageObjectURL);
   };
 
   const onFileSelectSuccess = (file, event) => {
-    fetchImage(file);
+    showImage(file);
     const formData = new FormData();
     formData.append("file", file);
 
@@ -49,6 +49,13 @@ export const Input = ({ onInputsSubmit, listofInputs }) => {
       });
   };
 
+  const Showimage = () => {
+    if (selectedFile === "") {
+      return <></>;
+    }
+    return <img src={selectedFile} alt="icons" className="center" />;
+  };
+
   return (
     <>
       <h3>CONSULTA:</h3>
@@ -57,7 +64,7 @@ export const Input = ({ onInputsSubmit, listofInputs }) => {
         onFileError={onFileSelectError}
       ></Inputimg>
       <>
-        <img src={selectedFile} alt="icons" className="center" />
+        <Showimage showImage></Showimage>
       </>
       <div className="container__block">
         <h3>TOP K:</h3>

@@ -29,28 +29,21 @@ export const Results = ({ listofResult }) => {
         <div className="container__top knn">
           <h2>Knn Secuential</h2>
           <Result listofResult={knn_results} />
-          <h3>Tiempo: {} </h3>
         </div>
         <div className="container__top rtree">
           <h2>Rtree</h2>
           <Result listofResult={rtree_results} />
-          <div className="time">
-            <h3>Tiempo: {} </h3>
-          </div>
+          <div className="time"></div>
         </div>
         <div className="container__top pca">
           <h2>PCA Knn</h2>
           <Result listofResult={knnpca_results} />
-          <div className="time">
-            <h3>Tiempo: {} </h3>
-          </div>
+          <div className="time"></div>
         </div>
         <div className="container__top pca">
           <h2>PCA Rtree</h2>
           <Result listofResult={rtreepca_results} />
-          <div className="time">
-            <h3>Tiempo: {} </h3>
-          </div>
+          <div className="time"></div>
         </div>
       </div>
     </>

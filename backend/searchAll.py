@@ -1,12 +1,11 @@
-
 import searchIndex
 import searchLineal
 import face_recognition
 import pickle
 import pandas as pd
 
-scaler = pickle.load(open("scaler.dat", "rb"))
-pca = pickle.load(open("pca.dat", "rb"))
+scaler = pickle.load(open("datos/scaler.dat", "rb"))
+pca = pickle.load(open("datos/pca.dat", "rb"))
 
 
 def search_all(query, vector, ind, dic, querypca, vectorpca, indpca, dicpca, k):
@@ -30,17 +29,12 @@ def search_all(query, vector, ind, dic, querypca, vectorpca, indpca, dicpca, k):
 
 
 def parseBasicEncode(file_stream):
-
-    # Pre-calculated face encoding of Obama generated with face_recognition.face_encodings(img)
     picture = face_recognition.load_image_file(
         file_stream)
     encode = face_recognition.face_encodings(picture)
     x_df = pd.DataFrame(data=encode, columns=[str(i) for i in range(1, 129)])
     x_scaled = scaler.transform(x_df)
     x_pca = pca.transform(x_scaled)
-    #lres = list(ind.nearest(coordinates=tuple(x_pca[0]), num_results=a))
-    #print("El vecino mas cercano de Aaron_Peirsol: ", lres)
-
     return [encode[0], x_pca[0]]
 
 

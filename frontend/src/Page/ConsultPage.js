@@ -18,7 +18,6 @@ export const ConsultPage = () => {
 
   const handleInputSubmit = async (topk) => {
     setEmpty();
-    //topk = 1;
 
     for (let i = 0; i < topk; i++) {
       let knn = img(i, 0);
@@ -29,9 +28,6 @@ export const ConsultPage = () => {
       rtree.then((response) => getImg(response, 1));
       knnpca.then((response) => getImg(response, 2));
       rtreepca.then((response) => getImg(response, 3));
-
-      //knndata.push(getImg(i, 0));
-      //rtreedata.push(getImg(i, 1));
     }
     test(
       knnaux.length,
@@ -91,6 +87,7 @@ export const ConsultPage = () => {
     <>
       <h1>UTEC SEARCH</h1>
       <Input onInputsSubmit={handleInputSubmit}></Input>
+
       <Results listofResult={result}></Results>
     </>
   );
