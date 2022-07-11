@@ -1,5 +1,10 @@
 # BD2-P3
 
+## Integrantes:
+| Edgar Chacon| Paulo Cuaresma|
+| ----- | ---- |
+| 100%| 100% |
+
 ## Introducción
 
 En este proyecto, se busco recrear el reconocimiento de rostros, en base a mas de 13 mil datos que se encuentran en la carpeta lfw, se implementó diferentes versiones del algoritmo de busqueda KNN, Secuencial, indexado con Rtree, y HighD (PCA) en el caso de nuestro grupo.
@@ -279,9 +284,30 @@ def consultTopk():
     return send_file(answers[type][pos], mimetype='image/jpeg')
  ```
 ### PCA
- 
- 
- 
+ * La maldición de dimensionalidad causa diversos efectos al organizar y analizar datos de grandes dimensiones. Esto provoca muchas veces una baja ineficiencia de los datos, en nuestro caso de los vectores característicos ya que los datos se vuelven más dispersos, también tiene impacto en el caso de la optimización y aprendizaje automático, afectando a los k vecinos más proximos de cada vector característico. ![knnfit2-1](https://user-images.githubusercontent.com/66433825/178222481-52176b25-5d2a-4df7-a3e0-7b563665b05d.png)
+
+ *Es por esta razón que se necesita mitagar la maldición de dimensionalidad y en nuestro caso nos ayudamos con el PCA que obtuvimos de la libreria scikit-learn,el PCA nos permite reducir las dimensiones de nuestros vectores característicos apartir de una presion que se elegimos(95%).
+ * Para utilizar el PCA, primero necesitamos nuestro csv de vectores caracteristicos anteriormente obtenidos de nuestra carpeta lfw
+      ``` python 
+      df = pd.read_csv("datos/data_vectorh.csv")
+      ```
+ * Luego se procede a estandarizar los datos
+       ``` python 
+      scaler = StandardScaler()
+      scalert = scaler.fit_transform(x)
+      ```
+ * Definimos una precisión para nuestra reducción de dimensiones (95%)
+     ``` python
+    pca = PCA(.95)
+    pcat = pca.fit_transform(scalert)
+    dfActual = pd.DataFrame(data=pcat)
+    dfFinal = pd.concat([df[["path"]], dfActual], axis=1)
+    ```
+ * Guardamos nuestro nuevo dataset con el que trabajaremos con el KNN secuencial y el KNN rtree
+  ``` python
+ dataset = "datos/data_vector_pca.csv"
+ dfFinal.to_csv(dataset, header=None, index=False)
+  ```
 ### Implementacion de Algoritmos de Busqueda KNN Secuencial y KNN Rtree Index,
 
 * La funciones se adaptaron para que puedan funcionar tanto para la data despues de haber pasado por PCA como para la que no, recibe una query (vector caracteristico guardado en un numpy array), un k (numero de elementos traidos).
