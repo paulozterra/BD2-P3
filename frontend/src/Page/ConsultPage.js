@@ -7,7 +7,7 @@ export const ConsultPage = () => {
   const [rtreeaux, setRtreeAux] = useState([]);
   const handleInputSubmit = async (topk) => {
     setResult([]);
-    topk = 3;
+    //topk = 1;
 
     for (let i = 0; i < topk; i++) {
       let knn = img(i, 0);
@@ -32,6 +32,7 @@ export const ConsultPage = () => {
 
   const getImg = async (aux, type) => {
     if (aux != undefined) {
+      console.log(aux);
       const reader = new FileReader();
       reader.readAsDataURL(aux);
       reader.onloadend = () => {

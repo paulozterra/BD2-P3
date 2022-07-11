@@ -2,18 +2,24 @@ import csv
 import json
 from flask import Flask, request, redirect, send_file
 from searchAll import search_all, parseBasicEncode
+import preprocessingrtree
+
 
 app = Flask(__name__)
 
-data_vectors = []
 answers = []
+data_vectors = {}
 with open('data_vector.csv', 'r') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for data in csv_reader:
-        data = [float(x) for x in data[1:]]
-        data_vectors.append(data)
+        datos = [float(x) for x in data[1:]]
+        data_vectors[data[0]] = datos
+
+RTREE = preprocessingrtree.create_rtree_index("max")
+DIC = preprocessingrtree.readJson("max")
 parsedQuery = None
 nameimg = None
+
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -46,13 +52,9 @@ def consultTopk():
     global answers
     request_data = json.loads(request.data)
     topk = int(request_data['topk'])
-    #answers = search_all(parsedQuery, topk, 3)
-    filename = "lfw\Aaron_Peirsol\Aaron_Peirsol_0001.jpg"
-    filename2 = "lfw\Aaron_Guiel\Aaron_Guiel_0001.jpg"
+    testing = search_all(parsedQuery, topk, data_vectors, RTREE, DIC)
+    answers = testing
     # print(consult)
-    #answers = search_all(consult, 2, 3)
-    answers = [[filename, filename2, filename], [
-        filename, filename2, filename]]
     return {"isOk": "200"}
 
 
