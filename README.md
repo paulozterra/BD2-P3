@@ -58,10 +58,8 @@ def preprocessimg():
                 aux += 1
                 if (aux > size):
                     break
-            # INDEX BUILD
         for i in dic2:
             ind.insert(i, tuple(dic[dic2[i]]))
-            # Serializing json
         if (size == 20000):
             size = "max"
         with open(json_path, "w") as outfile:
